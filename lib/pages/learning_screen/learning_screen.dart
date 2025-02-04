@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LearningScreen extends StatefulWidget {
+  const LearningScreen({super.key});
+
   @override
   State<LearningScreen> createState() => _LearningScreenState();
 }
