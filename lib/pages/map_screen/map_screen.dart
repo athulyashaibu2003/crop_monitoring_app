@@ -37,7 +37,10 @@ class _MapScreenState extends State<MapScreen> {
     // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      print("Location services are disabled.");
+      bool shouldOpenSettings = await _showEnableLocationDialog();
+      if (shouldOpenSettings) {
+        await Geolocator.openLocationSettings();
+      }
       return;
     }
 
@@ -55,6 +58,7 @@ class _MapScreenState extends State<MapScreen> {
       print(
         "Location permission permanently denied. Please enable it in settings.",
       );
+      await Geolocator.openAppSettings();
       return;
     }
 
@@ -67,13 +71,13 @@ class _MapScreenState extends State<MapScreen> {
         _currentPosition = LatLng(position.latitude, position.longitude);
         if (mapController != null) {
           mapController!.animateCamera(
-            CameraUpdate.newLatLng(_currentPosition),
+            CameraUpdate.newLatLng(_currentPosition!),
           );
         }
         _markers.add(
           Marker(
             markerId: MarkerId('current_location'),
-            position: _currentPosition,
+            position: _currentPosition!,
             infoWindow: InfoWindow(title: 'Your Location'),
           ),
         );
@@ -81,6 +85,30 @@ class _MapScreenState extends State<MapScreen> {
     } catch (e) {
       print("Error getting location: $e");
     }
+  }
+
+  Future<bool> _showEnableLocationDialog() async {
+    return await showDialog(
+          context: context,
+          builder:
+              (context) => AlertDialog(
+                title: Text("Enable Location Services"),
+                content: Text(
+                  "Location services are disabled. Please enable them.",
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text("Cancel"),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text("Open Settings"),
+                  ),
+                ],
+              ),
+        ) ??
+        false;
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -152,31 +180,31 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _fetchNDVIAndWeatherData() {
-    // _fetchNDVIImage();
+    _fetchNDVIImage();
     _fetchWeatherData();
   }
 
-  // void _fetchNDVIImage() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return AlertDialog(
-  //         title: Text("NDVI Image"),
-  //         content: Text(
-  //           "Fetched NDVI image for polygon with vertices: $polygonVertices",
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: Text("Close"),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void _fetchNDVIImage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("NDVI Image"),
+          content: Text(
+            "Fetched NDVI image for polygon with vertices: $polygonVertices",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Close"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> _fetchWeatherData() async {
     if (polygonVertices.length < 3) {
@@ -303,15 +331,6 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Analyse Farm'),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(_isDrawingMode ? Icons.cancel : Icons.edit),
-      //       onPressed: _toggleDrawingMode,
-      //     ),
-      //   ],
-      // ),
       body: SafeArea(
         child: Stack(
           children: [
