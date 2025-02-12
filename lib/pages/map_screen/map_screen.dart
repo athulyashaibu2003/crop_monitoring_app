@@ -5,6 +5,7 @@ import 'package:google_maps_webservice/places.dart' show GoogleMapsPlaces;
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:intl/intl.dart';
 
@@ -241,7 +242,7 @@ class _MapScreenState extends State<MapScreen> {
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        print("Response Data: $data");
+        log("Response Data: $data");
 
         if (data.isNotEmpty) {
           final firstEntry = data[0];

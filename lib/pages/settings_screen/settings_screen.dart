@@ -8,6 +8,17 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Settings Screen'));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Settings"),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.more_vert_rounded, color: Colors.blueGrey),
+          ),
+        ],
+      ),
+    );
   }
 }
