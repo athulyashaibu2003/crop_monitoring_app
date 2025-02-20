@@ -1,8 +1,9 @@
-import 'package:crop_monitoring_app_orginal/pages/community_screen/community_screen.dart';
-import 'package:crop_monitoring_app_orginal/pages/fields_screen/fields_screen.dart';
-import 'package:crop_monitoring_app_orginal/pages/learning_screen/learning_screen.dart';
-import 'package:crop_monitoring_app_orginal/pages/map_screen/map_screen.dart';
-import 'package:crop_monitoring_app_orginal/pages/settings_screen/settings_screen.dart';
+import 'package:crop_monitoring_app_orginal/Views/community_screen/community_screen.dart';
+import 'package:crop_monitoring_app_orginal/Views/fields_screen/fields_screen.dart';
+import 'package:crop_monitoring_app_orginal/Views/learning_screen/learning_screen.dart';
+import 'package:crop_monitoring_app_orginal/Views/map_screen/map_screen.dart';
+import 'package:crop_monitoring_app_orginal/Views/settings_screen/settings_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavScreen extends StatefulWidget {
@@ -36,10 +37,16 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Learning'),
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Fields'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Community'),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'.tr()),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'Learning'.tr(),
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Fields'.tr()),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.group),
+            label: 'Community'.tr(),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',

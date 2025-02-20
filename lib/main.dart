@@ -1,8 +1,24 @@
-import 'package:crop_monitoring_app_orginal/pages/bottom_navigation_bar_screen/bottom_nav_bar.dart';
+import 'package:crop_monitoring_app_orginal/Views/bottom_navigation_bar_screen/bottom_nav_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ml', 'IN'),
+        Locale('kn', 'IN'),
+      ],
+      path: 'assets/translations',
+      // fallbackLocale: const Locale('en', 'US'),
+      // startLocale: const Locale('en', 'US'),
+      // saveLocale: false,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,6 +27,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       debugShowCheckedModeBanner: false,
       home: BottomNavScreen(),
     );
