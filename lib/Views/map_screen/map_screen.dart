@@ -112,9 +112,20 @@ class _MapScreenState extends State<MapScreen> {
         false;
   }
 
+  // void _onMapCreated(GoogleMapController controller) {
+  //   mapController = controller;
+  //   mapController.animateCamera(CameraUpdate.newLatLng(_currentPosition));
+  // }
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
-    mapController!.animateCamera(CameraUpdate.newLatLng(_currentPosition));
+
+    // Check if _currentPosition is initialized before using it
+    if (_currentPosition != null) {
+      mapController.animateCamera(CameraUpdate.newLatLng(_currentPosition));
+    } else {
+      print("Current position not initialized yet.");
+    }
   }
 
   void _onMapTap(LatLng latLng) {

@@ -49,8 +49,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-          
-           label: 'Settings'.tr(),
+            label: 'Settings'.tr(),
           ),
         ],
       ),

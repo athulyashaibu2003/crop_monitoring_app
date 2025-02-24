@@ -1,6 +1,10 @@
 import 'package:crop_monitoring_app_orginal/Views/bottom_navigation_bar_screen/bottom_nav_bar.dart';
+import 'package:crop_monitoring_app_orginal/Views/splash_screen/splash_screen.dart';
+import 'package:crop_monitoring_app_orginal/auth/login_or_register.dart';
+import 'package:crop_monitoring_app_orginal/controller/ndvi_image_controller.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +30,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      debugShowCheckedModeBanner: false,
-      home: BottomNavScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NdviImageController(),)
+      ],
+      child: MaterialApp(
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     );
   }
 }
