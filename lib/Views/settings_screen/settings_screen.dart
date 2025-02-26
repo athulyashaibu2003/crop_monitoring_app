@@ -11,7 +11,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings".tr()),
+        title: Text("Settings".tr(   )),
         centerTitle: true,
         actions: [
           IconButton(

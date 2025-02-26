@@ -1,3 +1,4 @@
+import 'package:crop_monitoring_app_orginal/controller/ndvi_image_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +9,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
+
   final String apiKey = "AIzaSyAb37oGF7BebVQlkRe3q2Z0tCIW3QJl8j8";
   List<LatLng> polygonVertices = [];
   Set<Marker> _markers = {};
@@ -342,7 +345,26 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var ndviimageprovider = Provider.of<NdviImageController>(
+      context,
+      listen: false,
+    );
+
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          ElevatedButton(
+            onPressed: () => ndviimageprovider.fetchNDVIImage(polygonVertices: polygonVertices),
+            child: Text("Fetch NDVI Data"),
+          ),
+          SizedBox(height: 20),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Text(ndviimageprovider.taskid??""), // Show API response
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Stack(
           children: [
