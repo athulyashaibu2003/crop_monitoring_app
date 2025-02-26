@@ -1,3 +1,5 @@
+import 'package:crop_monitoring_app_orginal/components/filter_chip_widget/filter_chip_widget.dart';
+import 'package:crop_monitoring_app_orginal/components/post_card_community/post_card_community.dart';
 import 'package:flutter/material.dart';
 
 class CommunityScreen extends StatefulWidget {
@@ -9,63 +11,63 @@ class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Community Forum'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              // Navigate to create new discussion screen
-            },
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            pinned: false,
+            snap: true,
+            title: TextField(
+              decoration: InputDecoration(
+                hintText: "Search in Community",
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+            actions: [
+              IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+              IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+            ],
+          ),
+
+          SliverToBoxAdapter(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  FilterChipWidget(label: "Cabbage"),
+                  FilterChipWidget(label: "Capsicum & Chilli"),
+                  FilterChipWidget(label: "Bitter Gourd"),
+                ],
+              ),
+            ),
+          ),
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => PostCard(
+                userName: "Sd Arif Patel",
+                timeAgo: "3 h",
+                description:
+                    "Tell me what is this problem\nShape out and colour change",
+                imageUrl:
+                    "https://media.istockphoto.com/id/1380361370/photo/decorative-banana-plant-in-concrete-vase-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=eYADMQ9dXTz1mggdfn_exN2gY61aH4fJz1lfMomv6o4=",
+              ),
+              childCount: 15, // Total posts
+            ),
           ),
         ],
       ),
-      body: Column(children: [SearchBar(), Expanded(child: DiscussionList())]),
-    );
-  }
-}
 
-class SearchBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search discussions...',
-          border: OutlineInputBorder(),
-          prefixIcon: Icon(Icons.search),
-        ),
+      // Floating button for posting
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.blue[900],
+        onPressed: () {},
+        label: Text("Ask Community", style: TextStyle(color: Colors.white)),
+        icon: Icon(Icons.edit, color: Colors.white),
       ),
     );
   }
 }
-
-class DiscussionList extends StatelessWidget {
-  final List<String> discussions = [
-    'How to manage pests in corn?',
-    'Best practices for organic farming',
-    'What fertilizers work best for tomatoes?',
-    'Tips for irrigation during dry seasons',
-    'How to identify crop diseases?',
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: discussions.length,
-      itemBuilder: (context, index) {
-        return Card(
-          margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-          child: ListTile(
-            title: Text(discussions[index]),
-            subtitle: Text('Last updated: 2 hours ago'),
-            onTap: () {
-              // Navigate to discussion details
-            },
-          ),
-        );
-      },
-    );
-  }
-}
+   
