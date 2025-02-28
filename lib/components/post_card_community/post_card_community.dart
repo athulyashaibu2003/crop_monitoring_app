@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';    
 
 class PostCard extends StatelessWidget {
   final String userName, timeAgo, description, imageUrl;
 
   PostCard({
+    
     required this.userName,
     required this.timeAgo,
     required this.description,
@@ -77,12 +79,16 @@ class PostCard extends StatelessWidget {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {},
-                child: Image.asset(
+              IconButton(
+                icon: Image.asset(
                   "assets/images/icons8-whatsapp-24.png",
                   height: 25,
                 ),
+                onPressed: () {
+                  String message =
+                      "Check out this post by $userName:\n\n$description\n\n$imageUrl";
+                  Share.share(message);
+                },
               ),
             ],
           ),
